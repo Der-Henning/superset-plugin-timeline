@@ -54,16 +54,40 @@ export default function transformProps(chartProps: ChartProps) {
 
   console.log('formData via TransformProps.ts', formData);
 
+  let columns = [
+    { type: "string", id: "Status" },
+    { type: "date", id: "Start" },
+    { type: "date", id: "End" },
+  ];
+
+  if (formData?.group) {
+    columns = [
+      { type: "string", id: "Ebene" },
+      ...columns
+    ]
+  }
+
+  const rows = data.map(item => {
+    let row = [
+      // ...item,
+      // convert epoch to native Date
+      // eslint-disable-next-line no-underscore-dangle
+      item[formData?.label],
+      new Date(Number(item[formData?.start]?.toString())),
+      new Date(Number(item[formData?.end]?.toString())),
+    ]
+    if (formData?.group) {
+      row = [item[formData?.group], ...row]
+    }
+    return row
+  })
+
+  const timeline_data = [columns, ...rows];
+
   return {
     width,
     height,
-
-    data: data.map(item => ({
-      ...item,
-      // convert epoch to native Date
-      // eslint-disable-next-line no-underscore-dangle
-      __timestamp: new Date(item.__timestamp as number),
-    })),
+    data: timeline_data,
     // and now your control data, manipulated as needed, and passed through as props!
     boldText,
     headerFontSize,

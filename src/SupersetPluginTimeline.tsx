@@ -19,6 +19,7 @@
 import React, { useEffect, createRef } from 'react';
 import { styled } from '@superset-ui/core';
 import { SupersetPluginTimelineProps, SupersetPluginTimelineStylesProps } from './types';
+import { Chart } from "react-google-charts";
 
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
@@ -28,9 +29,9 @@ import { SupersetPluginTimelineProps, SupersetPluginTimelineStylesProps } from '
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
 const Styles = styled.div<SupersetPluginTimelineStylesProps>`
-  background-color: ${({ theme }) => theme.colors.secondary.light2};
+  /* background-color: ${({ theme }) => theme.colors.secondary.light2};
   padding: ${({ theme }) => theme.gridUnit * 4}px;
-  border-radius: ${({ theme }) => theme.gridUnit * 2}px;
+  border-radius: ${({ theme }) => theme.gridUnit * 2}px; */
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
 
@@ -74,6 +75,11 @@ export default function SupersetPluginTimeline(props: SupersetPluginTimelineProp
 
   console.log('Plugin props', props);
 
+  const options = {
+    timeline: { showRowLabels: true, groupByRowLabel: true },
+    avoidOverlappingGridLines: false,
+  };
+
   return (
     <Styles
       ref={rootElem}
@@ -82,8 +88,10 @@ export default function SupersetPluginTimeline(props: SupersetPluginTimelineProp
       height={height}
       width={width}
     >
-      <h3>{props.headerText}</h3>
-      <pre>${JSON.stringify(data, null, 2)}</pre>
+      {/* <h3>{props.headerText}</h3>
+      <pre> */}
+        <Chart chartType="Timeline" data={data} width="100%" height="100%" options={options} />
+        {/* </pre> */}
     </Styles>
   );
 }

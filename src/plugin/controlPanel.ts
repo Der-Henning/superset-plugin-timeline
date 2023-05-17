@@ -105,26 +105,58 @@ const config: ControlPanelConfig = {
       label: t('Query'),
       expanded: true,
       controlSetRows: [
+        // [
+        //   {
+        //     name: 'cols',
+        //     config: {
+        //       ...sharedControls.columns,
+        //       label: t('Columns'),
+        //       description: t('Columns to use'),
+        //     },
+        //   },
+        // ],
         [
           {
-            name: 'cols',
+            name: 'group',
             config: {
-              ...sharedControls.groupby,
-              label: t('Columns'),
-              description: t('Columns to group by'),
-            },
-          },
+              ...sharedControls.series,
+              label: t('Category'),
+              description: t('Column containing the category'),
+            }
+          }
         ],
         [
           {
-            name: 'metrics',
+            name: 'label',
             config: {
-              ...sharedControls.metrics,
-              // it's possible to add validators to controls if
-              // certain selections/types need to be enforced
-              validators: [validateNonEmpty],
-            },
-          },
+              ...sharedControls.series,
+              label: t('Timeline label'),
+              description: t('Column containing the label'),
+              validators: [validateNonEmpty]
+            }
+          }
+        ],
+        [
+          {
+            name: 'start',
+            config: {
+              ...sharedControls.series,
+              label: t('Start Timestamp'),
+              description: t('Column containing the start timestamps'),
+              validators: [validateNonEmpty]
+            }
+          }
+        ],
+        [
+          {
+            name: 'end',
+            config: {
+              ...sharedControls.series,
+              label: t('End Timestamp'),
+              description: t('Column containing the end timestamps'),
+              validators: [validateNonEmpty]
+            }
+          }
         ],
         ['adhoc_filters'],
         [
